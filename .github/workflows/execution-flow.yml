@@ -1,5 +1,6 @@
 name: Website Deployment
 on:
+  worflow_dispatch:
   push:
     branches:
       - main
