@@ -36,8 +36,13 @@ jobs:
         id: run-tests
         run: npm run test
       - name: Upload test report
-        if:   steps.run-tests.outcome == 'failure'
+        if:  failure() && steps.run-tests.outcome == 'failure'
+      #failure : always return true  when any previous steps or job failed
+      #success return true when none of the previous  step or job have failed
+      #always  causes the step to always execute even when cancelled
+      #cancelled retur true if worflow had been cancelled
         uses: actions/upload-artifact@v4
+
         with:
           name: test-report
           path: test.json
