@@ -1,0 +1,45 @@
+name: Matrix Demo
+on: push 
+jobs:
+    build:
+       strategy:
+          matrix:
+             node-version: [19 ,20 ,22]
+             operating-system: [ubuntu-latest, windows-latest]
+    
+
+#And the idea behind a matrix simply is that you can run the same job
+
+# with different configurations
+
+# for example, on different runners or different node versions
+
+# or any other values you might be interested in changing
+
+# at the same time.
+
+# You do that by adding the strategy field to your job,
+
+# so directly to the job to which it should apply.
+
+# And then the matrix below it.
+
+# And then here under matrix,
+
+# you can add any keys of your choice,
+
+# for example, node-version,
+
+# but this is totally up to you.
+       runs-on: ${{ matrix.operating-system}}
+       steps:
+          - name: Get Code
+            uses: actions/checkout@v4
+          - name: Install NodeJs
+            uses: actions/setup-node@v4
+            with:
+                node-version: ${{ matrix.node-version}}
+          - name: Install Dependencies
+            run: npm ci
+          - name: Build project
+            run: npm run build
